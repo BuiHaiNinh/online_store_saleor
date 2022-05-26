@@ -16287,9 +16287,24 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']>;
 };
 
+export type AddProductVariantToCartMutationVariables = Exact<{
+  checkoutToken: Scalars['UUID'];
+  variantId: Scalars['ID'];
+}>;
+
+
+export type AddProductVariantToCartMutation = { __typename?: 'Mutation', checkoutLinesAdd?: { __typename?: 'CheckoutLinesAdd', checkout?: { __typename?: 'Checkout', id: string, lines: Array<{ __typename?: 'CheckoutLine', id: string, quantity: number, variant: { __typename?: 'ProductVariant', name: string, product: { __typename?: 'Product', name: string } } }> } | null, errors: Array<{ __typename?: 'CheckoutError', message?: string | null }> } | null };
+
+export type CreateCheckoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateCheckoutMutation = { __typename?: 'Mutation', checkoutCreate?: { __typename?: 'CheckoutCreate', checkout?: { __typename?: 'Checkout', token: any } | null, errors: Array<{ __typename?: 'CheckoutError', field?: string | null, code: CheckoutErrorCode }> } | null };
+
 export type FilterProductsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']>;
   after?: InputMaybe<Scalars['String']>;
+  filter: ProductFilterInput;
+  sortBy?: InputMaybe<ProductOrder>;
 }>;
 
 
@@ -16305,7 +16320,7 @@ export type ProductByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductByIdQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: any | null, media?: Array<{ __typename?: 'ProductMedia', url: string }> | null, category?: { __typename?: 'Category', name: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null } | null };
+export type ProductByIdQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: any | null, media?: Array<{ __typename?: 'ProductMedia', url: string }> | null, category?: { __typename?: 'Category', name: string } | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string, pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', gross: { __typename?: 'Money', amount: number } } | null } | null }> | null } | null };
 
 export type TShirtProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -16313,9 +16328,107 @@ export type TShirtProductsQueryVariables = Exact<{ [key: string]: never; }>;
 export type TShirtProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, thumbnail?: { __typename?: 'Image', url: string } | null, category?: { __typename?: 'Category', name: string } | null } }> } | null };
 
 
+export const AddProductVariantToCartDocument = gql`
+    mutation AddProductVariantToCart($checkoutToken: UUID!, $variantId: ID!) {
+  checkoutLinesAdd(
+    token: $checkoutToken
+    lines: [{quantity: 1, variantId: $variantId}]
+  ) {
+    checkout {
+      id
+      lines {
+        id
+        quantity
+        variant {
+          name
+          product {
+            name
+          }
+        }
+      }
+    }
+    errors {
+      message
+    }
+  }
+}
+    `;
+export type AddProductVariantToCartMutationFn = Apollo.MutationFunction<AddProductVariantToCartMutation, AddProductVariantToCartMutationVariables>;
+
+/**
+ * __useAddProductVariantToCartMutation__
+ *
+ * To run a mutation, you first call `useAddProductVariantToCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddProductVariantToCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addProductVariantToCartMutation, { data, loading, error }] = useAddProductVariantToCartMutation({
+ *   variables: {
+ *      checkoutToken: // value for 'checkoutToken'
+ *      variantId: // value for 'variantId'
+ *   },
+ * });
+ */
+export function useAddProductVariantToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddProductVariantToCartMutation, AddProductVariantToCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddProductVariantToCartMutation, AddProductVariantToCartMutationVariables>(AddProductVariantToCartDocument, options);
+      }
+export type AddProductVariantToCartMutationHookResult = ReturnType<typeof useAddProductVariantToCartMutation>;
+export type AddProductVariantToCartMutationResult = Apollo.MutationResult<AddProductVariantToCartMutation>;
+export type AddProductVariantToCartMutationOptions = Apollo.BaseMutationOptions<AddProductVariantToCartMutation, AddProductVariantToCartMutationVariables>;
+export const CreateCheckoutDocument = gql`
+    mutation CreateCheckout {
+  checkoutCreate(
+    input: {channel: "default-channel", email: "customer@example.com", lines: []}
+  ) {
+    checkout {
+      token
+    }
+    errors {
+      field
+      code
+    }
+  }
+}
+    `;
+export type CreateCheckoutMutationFn = Apollo.MutationFunction<CreateCheckoutMutation, CreateCheckoutMutationVariables>;
+
+/**
+ * __useCreateCheckoutMutation__
+ *
+ * To run a mutation, you first call `useCreateCheckoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCheckoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCheckoutMutation, { data, loading, error }] = useCreateCheckoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCreateCheckoutMutation(baseOptions?: Apollo.MutationHookOptions<CreateCheckoutMutation, CreateCheckoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCheckoutMutation, CreateCheckoutMutationVariables>(CreateCheckoutDocument, options);
+      }
+export type CreateCheckoutMutationHookResult = ReturnType<typeof useCreateCheckoutMutation>;
+export type CreateCheckoutMutationResult = Apollo.MutationResult<CreateCheckoutMutation>;
+export type CreateCheckoutMutationOptions = Apollo.BaseMutationOptions<CreateCheckoutMutation, CreateCheckoutMutationVariables>;
 export const FilterProductsDocument = gql`
-    query FilterProducts($first: Int = 4, $after: String) {
-  products(first: $first, channel: "default-channel", after: $after) {
+    query FilterProducts($first: Int = 4, $after: String, $filter: ProductFilterInput!, $sortBy: ProductOrder) {
+  products(
+    first: $first
+    channel: "default-channel"
+    filter: $filter
+    sortBy: $sortBy
+    after: $after
+  ) {
     edges {
       node {
         id
@@ -16367,10 +16480,12 @@ export const FilterProductsDocument = gql`
  *   variables: {
  *      first: // value for 'first'
  *      after: // value for 'after'
+ *      filter: // value for 'filter'
+ *      sortBy: // value for 'sortBy'
  *   },
  * });
  */
-export function useFilterProductsQuery(baseOptions?: Apollo.QueryHookOptions<FilterProductsQuery, FilterProductsQueryVariables>) {
+export function useFilterProductsQuery(baseOptions: Apollo.QueryHookOptions<FilterProductsQuery, FilterProductsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<FilterProductsQuery, FilterProductsQueryVariables>(FilterProductsDocument, options);
       }
@@ -16441,6 +16556,13 @@ export const ProductByIdDocument = gql`
     variants {
       id
       name
+      pricing {
+        price {
+          gross {
+            amount
+          }
+        }
+      }
     }
   }
 }

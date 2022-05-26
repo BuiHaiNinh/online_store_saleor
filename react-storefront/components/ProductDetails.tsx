@@ -1,8 +1,10 @@
 import React from 'react';
 import { useRouter } from "next/router";
+import { useLocalStorage } from "react-use";
 
 import {
-  Product
+  useAddProductVariantToCartMutation,
+  Product,
 } from "@/saleor/api";
 
 import {VariantSelector} from "@/components";
@@ -28,6 +30,9 @@ interface Props {
 
 export const ProductDetails = ({ product }: Props) => {
   const router = useRouter();
+  const [token] = useLocalStorage('token');
+  const [addProductToCart] = useAddProductVariantToCartMutation();
+
 
   const queryVariant = process.browser
     ? router.query.variant?.toString()
@@ -35,6 +40,12 @@ export const ProductDetails = ({ product }: Props) => {
   const selectedVariantID = queryVariant || product?.variants![0]!.id!;
   const selectedVariant = product?.variants!.find((variant) => variant?.id === selectedVariantID);
 
+  const onAddToCart = async () => {
+    await addProductToCart({
+      variables: { checkoutToken: token, variantId: selectedVariantID },
+    });
+    router.push("/cart");
+  };
 
   return (
     <div className={styles.columns}>
@@ -62,6 +73,15 @@ export const ProductDetails = ({ product }: Props) => {
         <div className="text-2xl font-bold">
           {formatAsMoney(selectedVariant?.pricing?.price?.gross.amount)}
         </div>
+
+        <button
+          onClick={onAddToCart}
+          type="submit"
+          className="primary-button"
+        >
+          Add to cart
+        </button>
+
       </div>
     </div>
   );

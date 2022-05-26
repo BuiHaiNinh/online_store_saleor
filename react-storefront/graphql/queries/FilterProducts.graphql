@@ -1,5 +1,10 @@
-query FilterProducts ($first: Int = 4, $after: String) {
-  products(first: $first, channel: "default-channel", after: $after) {
+query FilterProducts ($first: Int = 4, $after: String, $filter: ProductFilterInput!, $sortBy: ProductOrder) {
+  products(
+    first: $first
+    channel: "default-channel"
+    filter: $filter
+    sortBy: $sortBy
+    after: $after) {
     edges {
       node {
         id

@@ -2,7 +2,7 @@ import React from 'react'
 
 import {
   ProductCollection,
-  Layout, FilterProductCollection
+  Layout
 } from '@/components';
 
 const Home = () => {
