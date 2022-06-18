@@ -1,10 +1,15 @@
-query FilterProducts ($first: Int = 4, $after: String, $filter: ProductFilterInput!, $sortBy: ProductOrder) {
+query FilterProducts(
+  $filter: ProductFilterInput!
+  $sortBy: ProductOrder
+  $after: String
+) {
   products(
-    first: $first
+    first: 4
     channel: "default-channel"
     filter: $filter
     sortBy: $sortBy
-    after: $after) {
+    after: $after
+  ) {
     edges {
       node {
         id
@@ -14,20 +19,6 @@ query FilterProducts ($first: Int = 4, $after: String, $filter: ProductFilterInp
         }
         category {
           name
-        }
-        pricing {
-          priceRange {
-            start {
-              gross {
-                amount
-              }
-            }
-            stop {
-              gross {
-                amount
-              }
-            }
-          }
         }
       }
     }

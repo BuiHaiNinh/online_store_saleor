@@ -2,7 +2,7 @@ overwrite: true
 schema: "https://vercel.saleor.cloud/graphql/"
 documents: "graphql/**/*.graphql"
 generates:
-  generated/saleor.tsx:
+  generated/saleor.ts:
     plugins:
       - add:
           content:

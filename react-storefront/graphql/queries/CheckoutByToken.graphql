@@ -1,41 +1,5 @@
 query CheckoutByToken($checkoutToken: UUID!) {
   checkout(token: $checkoutToken) {
-    id
-    email
-    lines {
-      id
-      totalPrice {
-        gross {
-          amount
-          currency
-        }
-      }
-      variant {
-        product {
-          id
-          name
-          slug
-          thumbnail {
-            url
-            alt
-          }
-        }
-        pricing {
-          price {
-            gross {
-              amount
-              currency
-            }
-          }
-        }
-        name
-      }
-    }
-    totalPrice {
-      gross {
-        amount
-        currency
-      }
-    }
+    ...CheckoutFragment
   }
 }

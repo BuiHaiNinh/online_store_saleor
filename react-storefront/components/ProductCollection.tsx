@@ -1,16 +1,21 @@
 import React from 'react';
 
-import { Product, useFilterProductsQuery } from '@/saleor/api';
+import {Product, useProductCollectionQuery, ProductFilterInput, useFilterProductsQuery} from '@/saleor/api';
 import { Pagination, ProductElement } from '@/components';
+
+
+export interface ProductCollectionProps {
+  filter?: ProductFilterInput;
+}
 
 const styles = {
   grid: 'grid gap-4 grid-cols-4',
 }
 
-export const ProductCollection = () => {
+export const ProductCollection = ({filter} : ProductCollectionProps) => {
   const { loading, error, data, fetchMore } = useFilterProductsQuery({
     variables: {
-      filter: {},
+      filter: {search: filter},
     }
   });
 

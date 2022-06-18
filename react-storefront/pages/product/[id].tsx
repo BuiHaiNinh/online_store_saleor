@@ -37,7 +37,7 @@ export async function getStaticPaths() {
   const { data } = await apolloClient.query<FilterProductsQuery>({
     query: FilterProductsDocument,
     variables: {
-      filter: {}
+      first: 4,
     }
   });
   const paths = data.products?.edges.map(({ node: { id } }) => ({
@@ -46,7 +46,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: 'blocking',
   };
 }
 
@@ -55,5 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       id: params?.id,
     },
+    //ISR applied
+    revalidate: 15,
   };
 };

@@ -20,8 +20,17 @@ export const Navbar = () => {
                 All Products
               </a>
             </Link>
+            <Link href="/cart">
+              <a className={styles.menuLink} aria-expanded="false">
+                Your Cart
+              </a>
+            </Link>
+            <Link href="/search">
+              <a className={styles.menuLink} aria-expanded="false">
+                Search
+              </a>
+            </Link>
           </div>
-
           <div className={styles.menuSection}>
           </div>
         </div>

@@ -30,6 +30,7 @@ interface Props {
 
 export const ProductDetails = ({ product }: Props) => {
   const router = useRouter();
+
   const [token] = useLocalStorage('token');
   const [addProductToCart] = useAddProductVariantToCartMutation();
 
